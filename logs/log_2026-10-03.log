@@ -1,0 +1,22 @@
+2026-10-03 05:30:23,780 - INFO - Successfully read the Yaml file 
+2026-10-03 05:32:15,662 - INFO - Successfully read the Yaml file 
+2026-10-03 05:34:02,681 - INFO - Successfully read the Yaml file 
+2026-10-03 05:34:02,689 - INFO - Data ingestion started with imagedataset9087 and file is collection_student
+2026-10-03 05:34:08,846 - ERROR - Error while downloading the csv from mongodb
+2026-10-03 05:34:08,847 - ERROR - Error occurred while running the data ingestion process
+2026-10-03 05:39:28,359 - INFO - Successfully read the Yaml file 
+2026-10-03 05:39:28,364 - INFO - Data ingestion started with imagedataset9087 and file is collection_student
+2026-10-03 05:39:32,971 - ERROR - Error while downloading the csv from mongodb
+2026-10-03 05:39:32,972 - ERROR - Error occurred while running the data ingestion process
+2026-10-03 05:49:52,114 - INFO - Successfully read the Yaml file 
+2026-10-03 05:49:52,119 - INFO - Data ingestion started with imagedataset9087 and file is collection_student
+2026-10-03 05:49:58,893 - ERROR - Error while downloading the csv from mongodb
+2026-10-03 05:49:58,894 - ERROR - Error occurred while running the data ingestion process
+2026-10-03 05:52:07,699 - INFO - Successfully read the Yaml file 
+2026-10-03 05:52:07,704 - INFO - Data ingestion started with imagedataset9087 and file is collection_student
+2026-10-03 05:52:12,774 - ERROR - Error while downloading the csv from mongodb
+2026-10-03 05:52:12,775 - ERROR - Error occurred while running the data ingestion process
+2026-10-03 05:54:27,373 - INFO - Successfully read the Yaml file 
+2026-10-03 05:54:27,379 - INFO - Data ingestion started with imagedataset9087 and file is collection_student
+2026-10-03 05:54:32,058 - INFO - Starting the image downloading process
+2026-10-03 05:55:05,262 - INFO - Data ingestion process completed successfully
