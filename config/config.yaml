@@ -1,7 +1,0 @@
-student_data_ingestion:
-  db_name: 'student_database'
-  collection_name: 'collection_student'
-  bucket_name: 'imagedataset9087'
-  region: 'us-east-1'
-  
-  

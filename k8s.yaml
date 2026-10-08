@@ -1,0 +1,50 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-converter-deployment
+  labels:
+    app: document-converter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: document-converter
+  template:
+    metadata:
+      labels:
+        app: document-converter
+    spec:
+      containers:
+      - name: document-converter-container
+        # ⚠️ ध्यान दें: डिप्लॉय करते समय नीचे '123456789012' की जगह अपनी AWS ACCOUNT ID डालें
+        image: ://amazonaws.com
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /docs
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-converter-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: document-converter
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

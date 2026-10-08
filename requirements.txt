@@ -1,6 +1,8 @@
 fastapi
 uvicorn
-pydantic
-pandas
-openpyxl
-Pillow
+requests
+img2pdf
+opencv-python-headless
+pymupdf
+numpy
+python-multipart
