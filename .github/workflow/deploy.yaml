@@ -58,7 +58,7 @@ jobs:
           docker stop media-app-server || true
           docker rm media-app-server || true
 
-      - name: Run Docker Image to serve users
+      - name: Run Docker Image to serve userss
         env:
           ECR_REGISTRY: ${{ steps.login-ecr-cd.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPO }}
