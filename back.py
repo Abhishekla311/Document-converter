@@ -76,7 +76,7 @@ async def image_cleaning(file: UploadFile = File(...)):
         if img is None:
             raise HTTPException(status_code=400, detail="Invalid image file data")
         
-        # Enhanced Sharpening matrix processing
+        # Enhanced Sharpening s matrix processing
         gaussian_blur = cv2.GaussianBlur(img, (5, 5), 1.0)
         img_sharp = cv2.addWeighted(img, 1.6, gaussian_blur, -0.6, 0) 
         
