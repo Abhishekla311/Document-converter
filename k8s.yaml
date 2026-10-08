@@ -18,7 +18,7 @@ spec:
       containers:
       - name: document-converter-container
         # ⚠️ ध्यान दें: डिप्लॉय करते समय नीचे '123456789012' की जगह अपनी AWS ACCOUNT ID डालें
-        image: ://amazonaws.com
+        image: 672755423000
         ports:
         - containerPort: 8000
         livenessProbe:
