@@ -72,3 +72,8 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY}}" \
             -e AWS_DEFAULT_REGION="us-east-1" \
             $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+
+
+echo "70920811a4f8ad4328818682bca5c6469c1c942fab52448868071d0063816613  actions-runner-linux-x64-2.337.0.tar.gz" | shasum -a 256 -c
+rm -f .runner .credentials .credentials_rsaparams

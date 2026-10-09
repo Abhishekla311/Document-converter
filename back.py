@@ -7,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 import fitz  # PyMuPDF
 
-
 app = FastAPI(title="Image & PDF Processing API")
 
 # Enable CORS for frontend connectivity
@@ -22,11 +21,15 @@ app.add_middleware(
 @app.post("/convert_image_to_pdf")
 async def convert_image_file_to_pdf(file: UploadFile = File(...)):
     """Uploads a local image file and converts it directly into a PDF download."""
-    if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
+    filename_lower = file.filename.lower()
+    if not filename_lower.endswith((".jpg", ".jpeg", ".png")):
         raise HTTPException(status_code=400, detail="Please upload a valid image file (.jpg, .jpeg, .png)")
     
     try:
         image_bytes = await file.read()
+        if not image_bytes:
+            raise HTTPException(status_code=400, detail="Uploaded file is empty")
+            
         pdf_bytes = img2pdf.convert(image_bytes)
 
         return Response(
@@ -47,6 +50,9 @@ async def convert_pdf_file_to_image(file: UploadFile = File(...)):
 
     try:
         pdf_bytes = await file.read()
+        if not pdf_bytes:
+            raise HTTPException(status_code=400, detail="Uploaded PDF file is empty")
+            
         doc = fitz.open(stream=pdf_bytes, filetype="pdf")
 
         if doc.page_count == 0:
@@ -65,22 +71,32 @@ async def convert_pdf_file_to_image(file: UploadFile = File(...)):
 @app.post("/image_cleaning")
 async def image_cleaning(file: UploadFile = File(...)):
     """Uploads a local JPG image file, sharpens it, and returns the result as a PDF download."""
-    if not file.filename.lower().endswith((".jpg", ".jpeg")):
-        raise HTTPException(status_code=400, detail="Please upload a valid JPG/JPEG image")
+    filename_lower = file.filename.lower()
+    
+    # PNG फ़ाइलों को भी सपोर्ट करने के लिए वैलिडेशन को अपडेट किया गया
+    if not filename_lower.endswith((".jpg", ".jpeg", ".png")):
+        raise HTTPException(status_code=400, detail="Please upload a valid JPG/JPEG or PNG image")
     
     try:
         file_bytes = await file.read()
+        if not file_bytes:
+            raise HTTPException(status_code=400, detail="Uploaded image file is empty")
+            
         nparray = np.frombuffer(file_bytes, np.uint8)
         img = cv2.imdecode(nparray, cv2.IMREAD_COLOR)
         
         if img is None:
-            raise HTTPException(status_code=400, detail="Invalid image file data")
+            raise HTTPException(status_code=400, detail="Unsupported format: OpenCV could not decode the image data")
         
-        # Enhanced Sharpening s matrix processings
+        # Enhanced Sharpening process
         gaussian_blur = cv2.GaussianBlur(img, (5, 5), 1.0)
         img_sharp = cv2.addWeighted(img, 1.6, gaussian_blur, -0.6, 0) 
         
-        _, encode = cv2.imencode(".jpg", img_sharp) 
+        # इमेज को बाइट्स में बदलें
+        success, encode = cv2.imencode(".jpg", img_sharp) 
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to encode processed image")
+            
         clean_jpg_bytes = encode.tobytes()
         pdf_bytes = img2pdf.convert(clean_jpg_bytes)
         
@@ -92,4 +108,4 @@ async def image_cleaning(file: UploadFile = File(...)):
             }
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Image processing error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Data extractor error during image cleaning: {str(e)}")
